@@ -4,22 +4,19 @@ import {
 	PencilIcon,
 	TrashIcon,
 } from "@heroicons/react/24/solid";
+import useFetch from "../hooks/useFetch";
 
 const TransactionTable = () => {
-	// Sample data for transactions
-	const transactions = [
-		{ id: 1, amount: "$100", date: "2025-03-28" },
-		{ id: 2, amount: "$200", date: "2025-03-27" },
-		{ id: 3, amount: "$300", date: "2025-03-26" },
-		{ id: 4, amount: "$400", date: "2025-03-25" },
-		{ id: 5, amount: "$500", date: "2025-03-24" },
-		{ id: 6, amount: "$600", date: "2025-03-23" },
-		{ id: 7, amount: "$700", date: "2025-03-22" },
-		{ id: 8, amount: "$800", date: "2025-03-21" },
-		{ id: 9, amount: "$900", date: "2025-03-20" },
-		{ id: 10, amount: "$1000", date: "2025-03-19" },
-	];
+	const {
+		data: transactions,
+		loading,
+		error,
+	} = useFetch("http://localhost:1337/api/transactions?populate=*");
 
+	if (loading) return <p>Loading...</p>;
+	if (error) return <p>Error: {error}</p>;
+
+	console.log(transactions);
 	return (
 		<div className="bg-white p-4 rounded-lg shadow-md h-full flex flex-col">
 			{/* Search Bar & Add Transaction */}
@@ -59,6 +56,7 @@ const TransactionTable = () => {
 				<table className="w-full table-auto border-collapse text-sm sm:text-base">
 					<thead className="bg-gray-100">
 						<tr>
+							<th className="p-2 text-xs sm:text-sm md:text-base">Image</th>
 							<th className="p-2 text-xs sm:text-sm md:text-base">Date</th>
 							<th className="p-2 text-xs sm:text-sm md:text-base">Amount</th>
 							<th className="p-2 text-xs sm:text-sm md:text-base">Actions</th>
@@ -68,10 +66,17 @@ const TransactionTable = () => {
 						{transactions.map((transaction) => (
 							<tr className="text-center" key={transaction.id}>
 								<td className="border border-gray-200 p-2 text-xs sm:text-sm md:text-base">
-									{transaction.date}
+									<img
+										src={`http://localhost:1337${transaction.Image.url}`}
+										alt="Money Transfer Image"
+										className="w-16 h-16 object-cover rounded-md mx-auto" // Fixed size and styling
+									/>
 								</td>
 								<td className="border border-gray-200 p-2 text-xs sm:text-sm md:text-base">
-									{transaction.amount}
+									{transaction.Date}
+								</td>
+								<td className="border border-gray-200 p-2 text-xs sm:text-sm md:text-base">
+									{transaction.Amount}
 								</td>
 								<td className="border border-gray-200 p-2 flex justify-center space-x-2">
 									<button className="bg-blue-500 text-white p-2 rounded-md">
