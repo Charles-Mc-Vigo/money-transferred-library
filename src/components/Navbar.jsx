@@ -6,7 +6,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
-	{ name: "Transactions", key: "Transaction" },
+	{ name: "Transactions", key: "Transactions" },
 	{ name: "Summary", key: "Summary" },
 	{ name: "Export", key: "Export" },
 ];
